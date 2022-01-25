@@ -1,35 +1,42 @@
 <template>
   <div class="home">
-    Home
-    <p>My name is {{ name }} and my age is {{ age }}</p>
-    <button @click="handleClick">Click me</button>
-    <button @click="age++">Add 1 to age</button>
-    <input type="text" v-model="name">
+    <h1>Home</h1>
+    <h2>Refs</h2>
+    <p>{{ ninjaOne.name }} - {{ ninjaOne.age }}</p>
+    <button @click="updateNinjaOne">Update ninja one</button>
+    <h2>Reactive</h2>
+    <p>{{ ninjaTwo.name }} - {{ ninjaTwo.age }}</p>
+    <button @click="updateNinjaTwo">Update ninja two</button>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 export default {
   name: 'Home',
   /* COMPOSITION API */
   setup() {
-    // const p = ref(null)
+    const ninjaOne = ref({ name: 'mario', age: 30 })
+    const ninjaTwo = reactive({ name: 'luigi', age: 35 })
 
-    // Refs are reactive values
-    const name = ref('Mario')
-    const age = ref(30)
+    const nameOne = ref('mario')
+    // This won't work. reactive doesn't accept primitive types.
+    // const nameTwo = reactive('luigi')
 
-    const handleClick = () => {
-      name.value = 'luigi'
-      age.value = 35
+    const updateNinjaOne = () => {
+      ninjaOne.value.age = 40
+    }
+
+    const updateNinjaTwo = () => {
+      ninjaTwo.age = 45
     }
 
     return {
-      name,
-      age,
-      handleClick
+      ninjaOne,
+      ninjaTwo,
+      updateNinjaOne,
+      updateNinjaTwo
     }
   }
 }
