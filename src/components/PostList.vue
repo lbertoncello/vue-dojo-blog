@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { onMounted, onUnmounted, onUpdated } from 'vue'
 import SinglePost from './SinglePost.vue'
 
 export default {
@@ -15,7 +16,13 @@ export default {
   components: { SinglePost },
   // This is how we access props inside the setup function
   setup(props) {
-    console.log(props.posts)
+    // Lifecycle hooks
+    onMounted(() => console.log('component mounted'))
+    onUnmounted(() => console.log('component unmounted'))
+    onUpdated(() => console.log('component updated'))
+  },
+  mounted() {
+    console.log('mounted using options api')
   }
 }
 </script>
