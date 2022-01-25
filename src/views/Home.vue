@@ -1,8 +1,10 @@
 <template>
   <div class="home">
     Home
-    <p ref="p">My name is {{ name }} and my age is {{ age }}</p>
+    <p>My name is {{ name }} and my age is {{ age }}</p>
     <button @click="handleClick">Click me</button>
+    <button @click="age++">Add 1 to age</button>
+    <input type="text" v-model="name">
   </div>
 </template>
 
@@ -13,22 +15,20 @@ export default {
   name: 'Home',
   /* COMPOSITION API */
   setup() {
-    const p = ref(null)
+    // const p = ref(null)
 
-    // Not reactive values
-    let name = 'Mario'
-    let age = 30
+    // Refs are reactive values
+    const name = ref('Mario')
+    const age = ref(30)
 
     const handleClick = () => {
-      console.log(p, p.value)
-      p.value.classList.add('test')
-      p.value.textContent = 'hello, ninjas'
+      name.value = 'luigi'
+      age.value = 35
     }
 
     return {
       name,
       age,
-      p,
       handleClick
     }
   }
