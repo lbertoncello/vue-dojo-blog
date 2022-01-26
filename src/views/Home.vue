@@ -1,7 +1,11 @@
 <template>
   <div class="home">
     <h1>Home</h1>
-    <PostList :posts="posts" />
+    <div v-if="error">{{ error }}</div>
+    <div v-if="posts.length">
+      <PostList :posts="posts" />
+    </div>
+    <div v-else>Loading...</div>
   </div>
 </template>
 
@@ -14,12 +18,26 @@ export default {
   components: { PostList },
   /* COMPOSITION API */
   setup() {
-    const posts = ref([
-      { title: 'welcome to the blog', body: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et dolorem amet tenetur autem aspernatur, aliquid saepe eligendi, reiciendis quia ducimus neque iste ea nobis, repellendus esse quisquam hic. Accusantium nobis totam tenetur inventore non optio a earum dolorum! Labore doloremque iusto sapiente illo esse porro in, alias est voluptatibus error iure nostrum mollitia magnam commodi vel quasi! Recusandae, qui consequuntur!', id: 1 },
-      { title: 'top 5 CSS tips', body: 'Lorem ipsum', id: 2 }
-    ])
+    const uri = 'http://localhost:3000/posts'
+    const posts = ref([])
+    const error = ref(null)
+
+    const load = async () => {
+      try {
+        let data = await fetch(uri)
+        if (!data.ok) {
+          throw Error('No data available')
+        }
+        posts.value = await data.json()
+      } catch(err) {
+        error.value = err.message
+        console.error(error.value)
+      }
+    }
+
+    load()
     
-    return { posts }
+    return { posts, error }
   }
 }
 </script>
