@@ -10,30 +10,15 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import PostList from '../components/PostList.vue'
+import getPosts from '../composables/getPosts'
 
 export default {
   name: 'Home',
   components: { PostList },
   /* COMPOSITION API */
   setup() {
-    const uri = 'http://localhost:3000/posts'
-    const posts = ref([])
-    const error = ref(null)
-
-    const load = async () => {
-      try {
-        let data = await fetch(uri)
-        if (!data.ok) {
-          throw Error('No data available')
-        }
-        posts.value = await data.json()
-      } catch(err) {
-        error.value = err.message
-        console.error(error.value)
-      }
-    }
+    const { posts, error, load } = getPosts()
 
     load()
     
