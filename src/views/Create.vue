@@ -1,6 +1,6 @@
 <template>
   <div class="create">
-    <form>
+    <form @submit.prevent="handleSubmit">
       <label>Title:</label>
       <input v-model="title" type="text" required>
       <label>Content:</label>
@@ -21,6 +21,7 @@
 
 <script>
 import { ref } from 'vue'
+import createPost from '../composables/createPost'
 
 export default {
   name: 'Create',
@@ -29,6 +30,7 @@ export default {
     const body = ref('')
     const tag = ref('')
     const tags = ref([])
+    const { error, create } = createPost()
 
     const handleKeydown = () => {
       // Removes all whitespace
@@ -39,12 +41,28 @@ export default {
       tag.value = ''
     }
 
+    const handleSubmit = async () => {
+      const post = { 
+        title: title.value, 
+        body: body.value, 
+        tags: tags.value 
+      }
+
+      await create(post)
+
+      title.value = ''
+      body.value = ''
+      tag.value = ''
+      tags.value = []
+    }
+
     return { 
       title, 
       body, 
       tag,
       tags,
-      handleKeydown
+      handleKeydown,
+      handleSubmit
     }
   }
 }
