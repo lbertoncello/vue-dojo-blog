@@ -6,11 +6,6 @@ const getPosts = () => {
   const error = ref(null)
 
   const load = async () => {
-    // Simulate delay
-    await new Promise((resolve) => {
-      setTimeout(resolve, 2000)
-    })
-
     try {
       let data = await fetch(uri)
       if (!data.ok) {
