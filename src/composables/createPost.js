@@ -6,15 +6,12 @@ const createPost = () => {
 
   const create = async (post) => {
     try {
-      console.log('post', post)
       const data = await fetch(uri, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(post)
       })
 
-      console.log('data: ', data)
-  
       if (!data.ok) {
         throw Error('Error trying to create a new post')
       }
