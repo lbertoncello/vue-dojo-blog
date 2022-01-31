@@ -5,7 +5,7 @@
     <p class="pre">{{ post.body }}</p>
   </div>
   <div v-else>
-    <spinner />
+    <Spinner />
   </div>
 </template>
 
