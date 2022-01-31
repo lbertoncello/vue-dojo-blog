@@ -21,11 +21,13 @@
 
 <script>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import createPost from '../composables/createPost'
 
 export default {
   name: 'Create',
   setup() {
+    const router = useRouter()
     const title = ref('')
     const body = ref('')
     const tag = ref('')
@@ -49,11 +51,7 @@ export default {
       }
 
       await create(post)
-
-      title.value = ''
-      body.value = ''
-      tag.value = ''
-      tags.value = []
+      router.push({ name: 'Home' })
     }
 
     return { 
