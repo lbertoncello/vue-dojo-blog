@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { projectFirestore } from '../firebase/config'
 
 const getPost = (id) => {
-  const uri = `http://localhost:3000/posts/${id}`
   const post = ref(null)
   const error = ref(null)
 
