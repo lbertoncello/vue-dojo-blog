@@ -14,23 +14,22 @@
 import { useRoute, useRouter } from 'vue-router'
 import Spinner from '../components/Spinner.vue'
 import getPost from '../composables/getPost'
-import { projectFirestore } from '../firebase/config'
+import removePost from '../composables/removePost'
 
 export default {
   name: 'Details',
   props: [ 'id' ],
   components: { Spinner },
-  setup() {
+  setup(props) {
     const route = useRoute()
     const router = useRouter()
     const { post, error, load } = getPost(route.params.id)
+    const { remove } = removePost()
 
     load()
 
     const handleClick = async () => {
-      await projectFirestore.collection('posts')
-        .doc(props.id)
-        .delete()
+      await remove(props.id)
 
       router.push({ name: 'Home' })
     }
