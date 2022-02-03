@@ -24,6 +24,11 @@ const routes = [
     path: '/tags/:tag',
     name: 'Tag',
     component: () => import('../views/Tag.vue')
+  },
+  {
+    path: '/realtime',
+    name: 'RealTime',
+    component: () => import('../views/RealTime.vue')
   }
 ]
 
