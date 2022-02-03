@@ -11,7 +11,6 @@ const getPosts = () => {
         .orderBy('createdAt', 'desc')
         .get()
       posts.value = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-      console.log(posts.value)
     } catch(err) {
       error.value = err.message
       console.error(error.value)
