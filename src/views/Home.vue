@@ -6,13 +6,17 @@
       <PostList :posts="posts" />
       <TagCloud :posts=posts />
     </div>
-    <div v-else>
+    <div v-else-if="loading">
       <Spinner />
+    </div>
+    <div v-else>
+      <h3>Não há nenhum post cadastrado no momento.</h3>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import PostList from '../components/PostList.vue'
 import Spinner from '../components/Spinner.vue'
 import TagCloud from '../components/TagCloud.vue'
@@ -23,11 +27,12 @@ export default {
   components: { PostList, Spinner, TagCloud },
   /* COMPOSITION API */
   setup() {
+    const loading = ref(true)
     const { posts, error, load } = getPosts()
 
-    load()
+    load().then(() => loading.value = false)
     
-    return { posts, error }
+    return { posts, error, loading }
   }
 }
 </script>
