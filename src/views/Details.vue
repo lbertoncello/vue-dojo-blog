@@ -5,12 +5,13 @@
     <p class="pre">{{ post.body }}</p>
     <button @click="handleClick" class="delete">Delete Post</button>
   </div>
-  <div v-else>
+  <div v-if="loading">
     <Spinner />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import Spinner from '../components/Spinner.vue'
 import getPost from '../composables/getPost'
@@ -21,12 +22,13 @@ export default {
   props: [ 'id' ],
   components: { Spinner },
   setup(props) {
+    const loading = ref(true)
     const route = useRoute()
     const router = useRouter()
     const { post, error, load } = getPost(route.params.id)
     const { remove } = removePost()
 
-    load()
+    load().then(() => loading.value = false)
 
     const handleClick = async () => {
       await remove(props.id)
@@ -34,7 +36,7 @@ export default {
       router.push({ name: 'Home' })
     }
 
-    return { post, error, handleClick }
+    return { post, error, loading, handleClick }
   }
 }
 </script>
